@@ -10,5 +10,27 @@
 ## Flowchart
 
 ## Pseudocode
+START TRANSACTION
+SET @orderNumber = MAX(orderNumber) + 1 FROM orders
 
+INSERT INTO orders (@orderNumber, currentDate, requiredDate, shippedDate, status, customerNumber)
+SAVEPOINT before_product_1
+
+INSERT INTO orderdetails (orderNumber, productCode, quantityOrdered, priceEach, orderLineNumber)
+UPDATE products SET quantityInStock = quantityInStock - orderedQuantity
+
+SAVEPOINT before_product_2
+INSERT product_2
+IF error THEN
+   ROLLBACK TO SAVEPOINT before_product_2
+ENDIF
+
+INSERT remaining products
+RECEIVE payment from customer
+
+COMMIT TRANSACTION
 ## Support for the Sales Departments' Report
+1) Add a payments table to store individual payment installments with amounts and dates for each order.
+2) Modify the orders table to include fields like totalAmount and totalPaid
+3) Update payment processing logic to adjust the totalPaid after each payment and calculate the remaining balance
+4) Generate a report that shows orders where the totalPaid is less than the totalAmount to identify outstanding balances to be followed up
