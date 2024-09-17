@@ -31,6 +31,16 @@ RECEIVE payment from customer
 COMMIT TRANSACTION
 ## Support for the Sales Departments' Report
 1) Add a payments table to store individual payment installments with amounts and dates for each order.
-2) Modify the orders table to include fields like totalAmount and totalPaid
-3) Update payment processing logic to adjust the totalPaid after each payment and calculate the remaining balance
-4) Generate a report that shows orders where the totalPaid is less than the totalAmount to identify outstanding balances to be followed up
+2) Modify the orders table to include fields like totalAmount and totalPaid.
+3) Update payment processing logic to adjust the totalPaid after each payment and calculate the remaining balance.
+4) Generate a report that shows orders where the totalPaid is less than the totalAmount to identify outstanding balances to be followed up.
+
+Example schema;
+CREATE TABLE payment_details (
+    paymentId INT AUTO_INCREMENT PRIMARY KEY,
+    orderNumber INT,
+    paymentAmount DECIMAL(10,2),
+    paymentDate DATE,
+    balance DECIMAL(10, 2),
+    FOREIGN KEY (orderNumber) REFERENCES orders(orderNumber)
+);
